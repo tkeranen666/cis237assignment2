@@ -37,7 +37,10 @@ namespace cis237assignment2
         {
             //Assign passed in variables to the class level ones. It was not done in the constuctor so that
             //a new maze could be passed in to this solve method without having to create a new instance.
-            //The variables are assigned so they can be used anywhere they are needed within this class. 
+            //The variables are assigned so they can be used anywhere they are needed within this class.
+            //It is possible that you will not need these class level ones and can get all of the work done
+            //with the local ones. Regardless of how you implement it, here are the class level assignments.
+            //Feel free to remove the class level variables and assignments if you determine that you don't need them.
             this.maze = maze;
             this.xStart = xStart;
             this.yStart = yStart;

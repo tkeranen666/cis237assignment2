@@ -1,4 +1,6 @@
-# Assignment 1 - Review of C# Basic Concepts and Introduction to Git
+# Assignment 2 - Recursion, Multi-Dimensional Arrays, Transposition.
+
+## Due 02-15-2016
 
 ## Author
 
@@ -27,5 +29,4 @@ Don't forget that you must have a base case for your recursive method or you wil
 ## Outside Resources Used
 
 ## Known Problems, Issues, And/Or Errors in the Program
-
 
