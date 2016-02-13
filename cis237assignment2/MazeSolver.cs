@@ -53,28 +53,26 @@ namespace cis237assignment2
             this.xStart = xStart;
             this.yStart = yStart;
 
+            //Do work needed to use mazeTraversal recursive call and solve the maze.
 
             Console.WriteLine("Welcome to the Maze. Please use the 'w', 'a', 's', and 'd' keys to navigate.");
             Console.WriteLine("w = up" + Environment.NewLine + "a = left" + Environment.NewLine + "d = right" +
                                Environment.NewLine + "s = down");
             PrintMaze();
 
-            //while (finish == false)
-            //{
-            //    Console.WriteLine();
-            //    Console.WriteLine();
-
-            //    userInput = Convert.ToChar(Console.ReadLine());
-
-            //    mazeTraversal();
-            //}
-
-            if (finish == true)
+            while (finish == false)
             {
-                Console.WriteLine("CONGRATULATIONS!!!!!!");
-            }
+                Console.WriteLine();
+                Console.WriteLine();
 
-            //Do work needed to use mazeTraversal recursive call and solve the maze.
+                mazeTraversal();
+
+                if (maze[5, 11] == path)
+                {
+                    finish = true;
+                    Console.WriteLine("CONGRATULATIONS!!!!!!");
+                }
+            }
         }
 
 
@@ -86,6 +84,67 @@ namespace cis237assignment2
         private void mazeTraversal()
         {
             //Implement maze traversal recursive call
+
+            maze[yStart, xStart] = path;
+            PrintMaze();
+
+            userInput = Convert.ToChar(Console.ReadLine());
+
+            if (userInput == 'w')
+            {
+                if (maze[yStart - 1, xStart] != '#')
+                {
+                    yStart -= 1;
+                    maze[yStart, xStart] = path;
+                }
+                else
+                {
+                    Console.WriteLine("You can't go through walls.");
+                }
+            }
+
+            else if (userInput == 'a')
+            {
+                if (maze[yStart, xStart - 1] != '#')
+                {
+                    xStart -= 1;
+                    maze[yStart, xStart] = path;
+                }
+                else
+                {
+                    Console.WriteLine("You can't go through walls.");
+                }
+            }
+
+            else if (userInput == 's')
+            {
+                if (maze[yStart + 1, xStart] != '#')
+                {
+                    yStart += 1;
+                    maze[yStart, xStart] = path;
+                }
+                else
+                {
+                    Console.WriteLine("You can't go through walls.");
+                }
+            }
+
+            else if (userInput == 'd')
+            {
+                if (maze[yStart, xStart + 1] != '#')
+                {
+                    xStart += 1;
+                    maze[yStart, xStart] = path;
+                }
+                else
+                {
+                    Console.WriteLine("You can't go through walls.");
+                }
+            }
+
+            else if (userInput != 'w' && userInput != 'a' && userInput != 's' && userInput != 'd')
+            {
+            }
         }
 
         private void PrintMaze()
