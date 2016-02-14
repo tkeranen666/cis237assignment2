@@ -25,7 +25,7 @@ namespace cis237assignment2
         char path = 'X';
         char deadEnd = '0';
 
-        char userInput;
+        string userInput = "";
 
         bool finish = false;
 
@@ -55,10 +55,13 @@ namespace cis237assignment2
 
             //Do work needed to use mazeTraversal recursive call and solve the maze.
 
-            Console.WriteLine("Welcome to the Maze. Please use the 'w', 'a', 's', and 'd' keys to navigate.");
-            Console.WriteLine("w = up" + Environment.NewLine + "a = left" + Environment.NewLine + "d = right" +
-                               Environment.NewLine + "s = down");
-            PrintMaze();
+            Console.WriteLine("Welcome to the Maze. Please use the 'W', 'A', 'S', and 'D' keys to navigate.");
+            Console.WriteLine("W = up" + Environment.NewLine +
+                              "A = left" + Environment.NewLine +
+                              "D = right" + Environment.NewLine +
+                              "S = down");
+
+            maze[yStart, xStart] = path;
 
             while (finish == false)
             {
@@ -69,7 +72,12 @@ namespace cis237assignment2
 
                 if (maze[5, 11] == path)
                 {
+                    Console.WriteLine();
+                    Console.WriteLine();
+
                     finish = true;
+
+                    PrintMaze();
                     Console.WriteLine("CONGRATULATIONS!!!!!!");
                 }
             }
@@ -85,12 +93,11 @@ namespace cis237assignment2
         {
             //Implement maze traversal recursive call
 
-            maze[yStart, xStart] = path;
             PrintMaze();
 
-            userInput = Convert.ToChar(Console.ReadLine());
+            userInput = Console.ReadLine();
 
-            if (userInput == 'w')
+            if (userInput == "w" || userInput == "W")
             {
                 if (maze[yStart - 1, xStart] != '#')
                 {
@@ -99,11 +106,12 @@ namespace cis237assignment2
                 }
                 else
                 {
-                    Console.WriteLine("You can't go through walls.");
+                    Console.WriteLine("Dead End.");
+                    maze[yStart, xStart] = deadEnd;
                 }
             }
 
-            else if (userInput == 'a')
+            else if (userInput == "a" || userInput == "A")
             {
                 if (maze[yStart, xStart - 1] != '#')
                 {
@@ -112,11 +120,12 @@ namespace cis237assignment2
                 }
                 else
                 {
-                    Console.WriteLine("You can't go through walls.");
+                    Console.WriteLine("Dead End.");
+                    maze[yStart, xStart] = deadEnd;
                 }
             }
 
-            else if (userInput == 's')
+            else if (userInput == "s" || userInput == "S")
             {
                 if (maze[yStart + 1, xStart] != '#')
                 {
@@ -125,11 +134,12 @@ namespace cis237assignment2
                 }
                 else
                 {
-                    Console.WriteLine("You can't go through walls.");
+                    Console.WriteLine("Dead End.");
+                    maze[yStart, xStart] = deadEnd;
                 }
             }
 
-            else if (userInput == 'd')
+            else if (userInput == "d" || userInput == "D")
             {
                 if (maze[yStart, xStart + 1] != '#')
                 {
@@ -138,13 +148,19 @@ namespace cis237assignment2
                 }
                 else
                 {
-                    Console.WriteLine("You can't go through walls.");
+                    Console.WriteLine("Dead End.");
+                    maze[yStart, xStart] = deadEnd;
                 }
             }
 
-            else if (userInput != 'w' && userInput != 'a' && userInput != 's' && userInput != 'd')
+            else if (userInput != "w" && userInput != "a" && userInput != "s" && userInput != "d" &&
+                     userInput != "W" && userInput != "A" && userInput != "S" && userInput != "D")
             {
+                Console.WriteLine("Your input was not understood.");
             }
+
+            Console.WriteLine();
+            Console.WriteLine();
         }
 
         private void PrintMaze()
