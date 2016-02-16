@@ -3,6 +3,7 @@
 ## Due 02-15-2016
 
 ## Author
+Tim Keranen
 
 ## Description
 
@@ -27,6 +28,8 @@ It might be useful while developing this program to use a smaller sized maze, an
 Don't forget that you must have a base case for your recursive method or you will continue to get a stack overflow. 
 
 ## Outside Resources Used
+I looked up Stack overflow to help with transposing the array
+http://stackoverflow.com/questions/18368611/how-do-i-transpose-a-multi-dimensional-array
 
 ## Known Problems, Issues, And/Or Errors in the Program
-
+It took me a while to fully understand recursion and transposing

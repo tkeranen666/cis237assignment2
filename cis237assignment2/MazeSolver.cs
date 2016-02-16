@@ -4,163 +4,118 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// Tim Keranen
+
 namespace cis237assignment2
 {
-    /// <summary>
-    /// This class is used for solving a char array maze.
-    /// You might want to add other methods to help you out.
-    /// A print maze method would be very useful, and probably neccessary to print the solution.
-    /// If you are real ambitious, you could make a seperate class to handle that.
-    /// </summary>
     class MazeSolver
     {
-        /// <summary>
-        /// Class level memeber variable for the mazesolver class
-        /// </summary>
+        // Class level memeber variable for the mazesolver class
         char[,] maze;
 
         int xStart;
         int yStart;
 
-        char path = 'X';
-        char deadEnd = '0';
-
-        string userInput = "";
-
+        // This bool is used to stop the recursion method
         bool finish = false;
 
-        /// <summary>
-        /// Default Constuctor to setup a new maze solver.
-        /// </summary>
+        
+        // Default Constuctor to setup a new maze solver.
         public MazeSolver()
         {}
 
-
-        /// <summary>
-        /// This is the public method that will allow someone to use this class to solve the maze.
-        /// Feel free to change the return type, or add more parameters if you like, but it can be done
-        /// exactly as it is here without adding anything other than code in the body.
-        /// </summary>
         public void SolveMaze(char[,] maze, int xStart, int yStart)
         {
-            //Assign passed in variables to the class level ones. It was not done in the constuctor so that
-            //a new maze could be passed in to this solve method without having to create a new instance.
-            //The variables are assigned so they can be used anywhere they are needed within this class.
-            //It is possible that you will not need these class level ones and can get all of the work done
-            //with the local ones. Regardless of how you implement it, here are the class level assignments.
-            //Feel free to remove the class level variables and assignments if you determine that you don't need them.
+            // This sets the finish boolean to false so the transposed array works properly
+            finish = false;
+
             this.maze = maze;
             this.xStart = xStart;
             this.yStart = yStart;
 
-            //Do work needed to use mazeTraversal recursive call and solve the maze.
+            Console.WriteLine();
+            Console.WriteLine();
 
-            Console.WriteLine("Welcome to the Maze. Please use the 'W', 'A', 'S', and 'D' keys to navigate.");
-            Console.WriteLine("W = up" + Environment.NewLine +
-                              "A = left" + Environment.NewLine +
-                              "D = right" + Environment.NewLine +
-                              "S = down");
-
-            maze[yStart, xStart] = path;
-
-            while (finish == false)
-            {
-                Console.WriteLine();
-                Console.WriteLine();
-
-                mazeTraversal();
-
-                if (maze[5, 11] == path)
-                {
-                    Console.WriteLine();
-                    Console.WriteLine();
-
-                    finish = true;
-
-                    PrintMaze();
-                    Console.WriteLine("CONGRATULATIONS!!!!!!");
-                }
-            }
+            mazeTraversal(maze, xStart, yStart);
         }
 
-
-        /// <summary>
-        /// This should be the recursive method that gets called to solve the maze.
-        /// Feel free to change the return type if you like, or pass in parameters that you might need.
-        /// This is only a very small starting point.
-        /// </summary>
-        private void mazeTraversal()
+        // The array and index values are passed into the recursion method
+        private void mazeTraversal(char[,] maze, int xIndex, int yIndex)
         {
             //Implement maze traversal recursive call
-
+            Console.WriteLine();
+            Console.WriteLine();
             PrintMaze();
 
-            userInput = Console.ReadLine();
-
-            if (userInput == "w" || userInput == "W")
+            // Base case makes sure the console stays within the bounderies of the array
+            if (xIndex != maze.GetLength(0) - 1 && yIndex != maze.GetLength(0) - 1 &&
+                xIndex != 0 && yIndex != 0)
             {
-                if (maze[yStart - 1, xStart] != '#')
+                // If there's a path above the current position the program will go there
+                if (maze[xIndex - 1, yIndex] == '.' && finish != true) // left -- up
                 {
-                    yStart -= 1;
-                    maze[yStart, xStart] = path;
+                    maze[xIndex, yIndex] = 'X';
+                    mazeTraversal(maze, xIndex - 1, yIndex);
+
+                    //If the program can't go up, the program will mark any dead ends with 0's
+                    if (finish == false)
+                    {
+                        maze[xIndex - 1, yIndex] = '0';
+                        maze[xIndex, yIndex] = '0';
+                    }
                 }
-                else
+
+                // If there's a path below the current position the program will go there
+                if (maze[xIndex + 1, yIndex] == '.' && finish != true) // rigth -- down
                 {
-                    Console.WriteLine("Dead End.");
-                    maze[yStart, xStart] = deadEnd;
+                    maze[xIndex, yIndex] = 'X';
+                    mazeTraversal(maze, xIndex + 1, yIndex);
+
+                    //If the program can't go down, the program will mark any dead ends with 0's
+                    if (finish == false)
+                    {
+                        maze[xIndex + 1, yIndex] = '0';
+                        maze[xIndex, yIndex] = '0';
+                    }
+                }
+
+                // If there's a path to the left of the current position the program will go there
+                if (maze[xIndex, yIndex - 1] == '.' && finish != true) // up -- left
+                {
+                    maze[xIndex, yIndex] = 'X';
+                    mazeTraversal(maze, xIndex, yIndex - 1);
+
+                    //If the program can't go left, the program will mark any dead ends with 0's
+                    if (finish == false)
+                    {
+                        maze[xIndex, yIndex - 1] = '0';
+                        maze[xIndex, yIndex] = '0';
+                    }
+                }
+
+                // If there's a path to the right of the current position the program will go there
+                if (maze[xIndex, yIndex + 1] == '.' && finish != true) // down -- right
+                {
+                    maze[xIndex, yIndex] = 'X';
+                    mazeTraversal(maze, xIndex, yIndex + 1);
+
+                    //If the program can't go right, the program will mark any dead ends with 0's
+                    if (finish == false)
+                    {
+                        maze[xIndex, yIndex + 1] = '0';
+                        maze[xIndex, yIndex] = '0';
+                    }
                 }
             }
+            else // If the program reaches the end of the maze, the console with set the finish boolean to true
+            {   // and stop the recursion method, and the value of the exit will be changed to 'X'
+                finish = true;
+                maze[xIndex, yIndex] = 'X';
 
-            else if (userInput == "a" || userInput == "A")
-            {
-                if (maze[yStart, xStart - 1] != '#')
-                {
-                    xStart -= 1;
-                    maze[yStart, xStart] = path;
-                }
-                else
-                {
-                    Console.WriteLine("Dead End.");
-                    maze[yStart, xStart] = deadEnd;
-                }
+                Console.WriteLine();
+                Console.WriteLine();
+                PrintMaze();
             }
-
-            else if (userInput == "s" || userInput == "S")
-            {
-                if (maze[yStart + 1, xStart] != '#')
-                {
-                    yStart += 1;
-                    maze[yStart, xStart] = path;
-                }
-                else
-                {
-                    Console.WriteLine("Dead End.");
-                    maze[yStart, xStart] = deadEnd;
-                }
-            }
-
-            else if (userInput == "d" || userInput == "D")
-            {
-                if (maze[yStart, xStart + 1] != '#')
-                {
-                    xStart += 1;
-                    maze[yStart, xStart] = path;
-                }
-                else
-                {
-                    Console.WriteLine("Dead End.");
-                    maze[yStart, xStart] = deadEnd;
-                }
-            }
-
-            else if (userInput != "w" && userInput != "a" && userInput != "s" && userInput != "d" &&
-                     userInput != "W" && userInput != "A" && userInput != "S" && userInput != "D")
-            {
-                Console.WriteLine("Your input was not understood.");
-            }
-
-            Console.WriteLine();
-            Console.WriteLine();
         }
 
         private void PrintMaze()
